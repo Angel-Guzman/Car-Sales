@@ -17,7 +17,16 @@ export const initialState = {
     ]
 };
 
+// features array .reduce
+// change additional price when adding/removing a feature
+
+const reducerFunction = (featuresArr) => {
+    const reducer = (acc, feature) => acc + feature.price;
+    return (featuresArr.reduce(reducer, 0));
+};
+
 export const reducer = (state = initialState, action) => {
+    
     switch (action.type) {
         case ADD_FEATURE:
             console.log('adding feature', action.payload)
@@ -29,6 +38,7 @@ export const reducer = (state = initialState, action) => {
             }
             return {
                 ...state,
+                additionalPrice: reducerFunction([...state.car.features, action.payload]),
                 car: {
                     ...state.car,
                     features: [...state.car.features, action.payload]
@@ -39,12 +49,12 @@ export const reducer = (state = initialState, action) => {
             const desiredFeatures = state.car.features.filter(feature => feature !== action.payload) 
                 return {
                     ...state,
+                    additionalPrice: reducerFunction(desiredFeatures),
                     car: {
                         ...state.car,
                         features: desiredFeatures
                     }
                 }
-        
         default:
         return state
     }
