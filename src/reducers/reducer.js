@@ -36,13 +36,15 @@ export const reducer = (state = initialState, action) => {
             }
         case REMOVE_FEATURE:
             console.log('removing feature', action.payload)
-            return {
-                ...state,
-                car: {
-                    ...state.car,
-                    features: [...state.car.features]
+            const desiredFeatures = state.car.features.filter(feature => feature !== action.payload) 
+                return {
+                    ...state,
+                    car: {
+                        ...state.car,
+                        features: desiredFeatures
+                    }
                 }
-            }
+        
         default:
         return state
     }
